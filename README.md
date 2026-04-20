@@ -28,7 +28,7 @@ This project extracts SBOMs (Software Bill of Materials) and analyzes vulnerabil
 The pipeline is divided into two extraction/processing scripts and one analysis notebook.
 
 **1. Clone Repositories**
-Run the extraction script to clone the target repositories into a temporary `repos/` folder:
+Run the extraction script to clone the target repositories into a temporary `data/raw/repos/` folder:
 ```powershell
 .\scripts\01-extract.ps1
 ```
@@ -47,4 +47,4 @@ jupyter notebook analysis/vulnerability_metrics.ipynb
 Run all cells in the notebook to view the metrics and visualizations.
 
 ### Cleanup
-To clean up cloned repositories, delete the `repos/` directory. JSON results are kept in `data/raw/` for future analysis.
+To clean up cloned repositories, delete the `data/raw/repos/` directory. JSON results are kept in `data/raw/` for future analysis.
