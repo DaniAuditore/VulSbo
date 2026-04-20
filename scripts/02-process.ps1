@@ -1,5 +1,5 @@
 param (
-    [string]$ReposDir = "data/repos",
+    [string]$ReposDir = "data/raw/repos",
     [string]$RawDataDir = "data/raw"
 )
 
