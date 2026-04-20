@@ -6,45 +6,51 @@ University project for SBOMS
 This project extracts SBOMs (Software Bill of Materials) and analyzes vulnerabilities from GitHub repositories using Syft and Grype.
 
 ### Prerequisites
-- [Git](https://git-scm.com/)
-- [GitHub CLI (gh)](https://cli.github.com/)
-- [Syft](https://github.com/anchore/syft)
-- [Grype](https://github.com/anchore/grype)
-- Python 3.x
-- PowerShell
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Setup
 1. Clone this repository.
-2. Install Python dependencies:
-   ```powershell
-   pip install -r requirements.txt
+2. Build and start the Docker container:
+   ```bash
+   docker compose up -d
    ```
-3. Authenticate with GitHub CLI:
-   ```powershell
+3. Enter the container to run scripts:
+   ```bash
+   docker compose exec jupyter bash
+   ```
+4. Authenticate with GitHub CLI (inside the container):
+   ```bash
    gh auth login
    ```
 
 ### Execution Steps
-The pipeline is divided into two extraction/processing scripts and one analysis notebook.
+The pipeline is divided into two extraction/processing scripts and one analysis notebook. You must run the scripts inside the Docker container.
 
 **1. Clone Repositories**
-Run the extraction script to clone the target repositories into a temporary `data/raw/repos/` folder:
-```powershell
-.\scripts\01-extract.ps1
+Run the extraction script to clone the target repositories into `data/raw/repos/`:
+```bash
+./scripts/01-extract.sh
 ```
 
 **2. Generate SBOMs & Vulnerability Reports**
-Run the processing script to analyze the cloned repositories using Syft and Grype. Output JSON files will be stored in `data/raw/`:
-```powershell
-.\scripts\02-process.ps1
+Run the processing script to analyze the cloned repositories using Syft and Grype. Output JSON files will be stored in `data/processed/sboms/` and `data/raw/`:
+```bash
+./scripts/02-process.sh
 ```
 
 **3. Analyze Vulnerabilities**
-Open the Jupyter Notebook to explore the quantitative analysis (severity distribution and top vulnerable packages):
-```powershell
-jupyter notebook analysis/vulnerability_metrics.ipynb
+The Jupyter Notebook server is automatically started by Docker on port 8888.
+Open your browser and navigate to `http://localhost:8888`.
+Explore the quantitative analysis (severity distribution and top vulnerable packages) by opening:
+```
+analysis/vulnerability_metrics.ipynb
 ```
 Run all cells in the notebook to view the metrics and visualizations.
 
 ### Cleanup
-To clean up cloned repositories, delete the `data/raw/repos/` directory. JSON results are kept in `data/raw/` for future analysis.
+To clean up cloned repositories, delete the `data/raw/repos/` directory.
+To stop the Docker container:
+```bash
+docker compose down
+```
