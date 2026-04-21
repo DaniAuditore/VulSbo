@@ -28,10 +28,15 @@ This project extracts SBOMs (Software Bill of Materials) and analyzes vulnerabil
 The pipeline is divided into two extraction/processing scripts and one analysis notebook. You must run the scripts inside the Docker container.
 
 **1. Clone Repositories**
-Run the extraction script to clone the target repositories into `data/raw/repos/`:
+Run the extraction script to clone the target repositories into `data/raw/repos/`. By default, it fetches up to 50 active repositories from `OWASP`:
 ```bash
 ./scripts/01-extract.sh
 ```
+
+> **💡 Pro Tip (Express Version):** If you want a faster, more targeted analysis (e.g., for a smaller organization), you can pass the organization name as an argument. For example, to analyze `expressjs`:
+> ```bash
+> ./scripts/01-extract.sh expressjs
+> ```
 
 **2. Generate SBOMs & Vulnerability Reports**
 Run the processing script to analyze the cloned repositories using Syft and Grype. Output JSON files will be stored in `data/processed/sboms/` and `data/raw/`:
